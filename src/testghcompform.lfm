@@ -1,0 +1,29 @@
+object TestGHCompForm: TTestGHCompForm
+  Left = 1530
+  Height = 54
+  Top = 132
+  Width = 203
+  Caption = 'TestGHCompForm'
+  ClientHeight = 54
+  ClientWidth = 203
+  LCLVersion = '1.6.4.0'
+  object NumEdit1: TNumEdit
+    Left = 64
+    Height = 23
+    Top = 7
+    Width = 80
+    EditorBorderStyle = bsSingle
+    Hexadecimal = False
+    MaxValue = 100
+    MinValue = 0
+    TabOrder = 0
+    Value = 55
+  end
+  object Title2: TTitle
+    Left = 16
+    Height = 16
+    Top = 8
+    Width = 27
+    TitleText = 'Test'
+  end
+end
