@@ -1,20 +1,22 @@
-unit TitleReg;
+
+Unit TitleReg;
 
 {$MODE Delphi}
 
-interface
-uses Classes, GraphPropEdits, Graphics, PropEdits, Title;
+Interface
 
-procedure Register;
+Uses Classes, GraphPropEdits, Graphics, PropEdits, Title;
 
-implementation
+Procedure Register;
 
-procedure Register;
-begin
+Implementation
+
+Procedure Register;
+Begin
   RegisterPropertyEditor(TypeInfo(TFont),TTitle,'',TFontProperty);
   RegisterPropertyEditor(TypeInfo(TColor),TTitle,'',TColorProperty);
   RegisterComponents('GHComp', [TTitle]);
-end;
+End;
 
 
-end.
+End.

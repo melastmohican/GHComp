@@ -1,58 +1,69 @@
 {$IFNDEF VER100}
 {$ObjExportAll On}
 {$ENDIF}
-unit Title;
+
+Unit Title;
 
 {$MODE Delphi}
 
 {$R-}
-interface
 
-uses
-  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ExtCtrls, StdCtrls;
+Interface
 
-type
-  TTitle = class(TWinControl)
-  private
+Uses 
+LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls,
+Forms, Dialogs,
+ExtCtrls, StdCtrls;
+
+Type 
+  TTitle = Class(TWinControl)
+    Private 
     { Private declarations }
-    FText: String;
-    FTextNormal: TLabel;
-    FTextShadow: TLabel;
-    FTextHighlight: TLabel;
-    FColorNormal: TColor;
-    FColorShadow: TColor;
-    FColorHighlight: TColor;
-    procedure SetText(const AStr: String);
-    procedure SetNormalColor(const AColor: TColor);
-    procedure SetShadowColor(const AColor: TColor);
-    procedure SetHighlightColor(const AColor: TColor);
-    procedure ReSizeMe (var W: Integer; var H: Integer);
-    procedure WMSize(var Message: TWMSize);  message WM_SIZE;
-    procedure CMFontChanged(var Message: TMessage); message CM_FONTCHANGED;
-  protected
+      FText: String;
+      FTextNormal: TLabel;
+      FTextShadow: TLabel;
+      FTextHighlight: TLabel;
+      FColorNormal: TColor;
+      FColorShadow: TColor;
+      FColorHighlight: TColor;
+      Procedure SetText(Const AStr: String);
+      Procedure SetNormalColor(Const AColor: TColor);
+      Procedure SetShadowColor(Const AColor: TColor);
+      Procedure SetHighlightColor(Const AColor: TColor);
+      Procedure ReSizeMe (Var W: Integer; Var H: Integer);
+      Procedure WMSize(Var Message: TWMSize);
+      message WM_SIZE;
+      Procedure CMFontChanged(Var Message: TMessage);
+      message CM_FONTCHANGED;
+    Protected 
     { Protected declarations }
-    procedure CreateWnd; override;
-    procedure Loaded; override;
-  public
+      Procedure CreateWnd;
+      override;
+      Procedure Loaded;
+      override;
+    Public 
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
-  published
+      constructor Create(AOwner: TComponent);
+      override;
+    Published 
     { Published declarations }
-    property Font;
-    property TitleText : String read FText write SetText;
-    property NormalColor : TColor read FColorNormal write SetNormalColor default clNavy;
-    property ShadowColor : TColor read FColorShadow write SetShadowColor default clGray;
-    property HighlightColor : TColor read FColorHighlight write SetHighlightColor default clWhite;
-  end;
+      property Font;
+      property TitleText : String read FText write SetText;
+      property NormalColor : TColor read FColorNormal write SetNormalColor
+                             default clNavy;
+      property ShadowColor : TColor read FColorShadow write SetShadowColor
+                             default clGray;
+      property HighlightColor : TColor read FColorHighlight write
+                                SetHighlightColor default clWhite;
+  End;
 
-implementation
+Implementation
 
 constructor TTitle.Create(AOwner: TComponent);
-begin
+Begin
   inherited Create(AOwner);
   ControlStyle := ControlStyle - [csAcceptsControls, csSetCaption] +
-    [csOpaque];
+                  [csOpaque];
   Caption := '';
   FTextShadow := TLabel.Create(self);
   FTextShadow.Parent := self;
@@ -83,87 +94,90 @@ begin
   FTextHighlight.Font.Color := FColorHighlight;
   Width := FTextShadow.Width;
   Height := FTextShadow.Height;
-end;
+End;
 
-procedure TTitle.CreateWnd;
-var
+Procedure TTitle.CreateWnd;
+
+Var 
   W, H: Integer;
-begin
- inherited CreateWnd;
- W := Width;
- H := Height;
- ReSizeMe(W,H);
-end;
+Begin
+  inherited CreateWnd;
+  W := Width;
+  H := Height;
+  ReSizeMe(W,H);
+End;
 
-procedure TTitle.SetText(const AStr: String);
-begin
- FText:= AStr;
- FTextShadow.Caption := FText;
- FTextHighlight.Caption := FText;
- FTextNormal.Caption := FText;
- SetBounds(Left,Top,FTextShadow.Width,FTextShadow.Height);
- Invalidate;
-end;
+Procedure TTitle.SetText(Const AStr: String);
+Begin
+  FText := AStr;
+  FTextShadow.Caption := FText;
+  FTextHighlight.Caption := FText;
+  FTextNormal.Caption := FText;
+  SetBounds(Left,Top,FTextShadow.Width,FTextShadow.Height);
+  Invalidate;
+End;
 
-procedure TTitle.SetNormalColor(const AColor: TColor);
-begin
- FColorNormal := AColor;
- FTextNormal.Font.Color := FColorNormal;
- Invalidate;
-end;
+Procedure TTitle.SetNormalColor(Const AColor: TColor);
+Begin
+  FColorNormal := AColor;
+  FTextNormal.Font.Color := FColorNormal;
+  Invalidate;
+End;
 
-procedure TTitle.SetShadowColor(const AColor: TColor);
-begin
- FColorShadow := AColor;
- FTextShadow.Font.Color := FColorShadow;
- Invalidate;
-end;
+Procedure TTitle.SetShadowColor(Const AColor: TColor);
+Begin
+  FColorShadow := AColor;
+  FTextShadow.Font.Color := FColorShadow;
+  Invalidate;
+End;
 
-procedure TTitle.SetHighlightColor(const AColor: TColor);
-begin
- FColorHighlight := AColor;
- FTextHighlight.Font.Color := FColorHighlight;
- Invalidate;
-end;
+Procedure TTitle.SetHighlightColor(Const AColor: TColor);
+Begin
+  FColorHighlight := AColor;
+  FTextHighlight.Font.Color := FColorHighlight;
+  Invalidate;
+End;
 
-procedure TTitle.ReSizeMe (var W: Integer; var H: Integer);
-begin
+Procedure TTitle.ReSizeMe (Var W: Integer; Var H: Integer);
+Begin
   FTextShadow.SetBounds (0, 0, W, H);
   FTextNormal.SetBounds (0, 1, W, H - 1);
   FTextHighlight.SetBounds (0, 2, W, H - 2);
-end;
+End;
 
-procedure TTitle.CMFontChanged(var Message: TMessage);
-begin
- FTextShadow.Font.Assign(Self.Font);
- FTextNormal.Font.Assign(Self.Font);
- FTextHighlight.Font.Assign(Self.Font);
- FTextShadow.Font.Color := FColorShadow;
- FTextNormal.Font.Color := FColorNormal;
- FTextHighlight.Font.Color := FColorHighlight;
- SetBounds(Left,Top,FTextShadow.Width,FTextShadow.Height);
- Invalidate;
-end;
+Procedure TTitle.CMFontChanged(Var Message: TMessage);
+Begin
+  FTextShadow.Font.Assign(Self.Font);
+  FTextNormal.Font.Assign(Self.Font);
+  FTextHighlight.Font.Assign(Self.Font);
+  FTextShadow.Font.Color := FColorShadow;
+  FTextNormal.Font.Color := FColorNormal;
+  FTextHighlight.Font.Color := FColorHighlight;
+  SetBounds(Left,Top,FTextShadow.Width,FTextShadow.Height);
+  Invalidate;
+End;
 
-procedure TTitle.WMSize(var Message: TWMSize);
-var
+Procedure TTitle.WMSize(Var Message: TWMSize);
+
+Var 
   W, H: Integer;
-begin
+Begin
   inherited;
   { check for minimum size }
   W := Width;
   H := Height;
   ReSizeMe (W,H);
-end;
+End;
 
-procedure TTitle.Loaded;
-var
+Procedure TTitle.Loaded;
+
+Var 
   W, H: Integer;
-begin
- inherited Loaded;
- W := Width;
- H := Height;
- ReSizeMe(W,H);
-end;
+Begin
+  inherited Loaded;
+  W := Width;
+  H := Height;
+  ReSizeMe(W,H);
+End;
 
-end.
+End.
